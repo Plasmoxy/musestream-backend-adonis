@@ -31,9 +31,6 @@ Route.group(() => {
   Route.get('/hello', 'DebugsController.hello')
 }).prefix('/debug')
 
-// apis
-Route.group(() => {
-  
-  
-  
-}).prefix('/api')
+// Auth
+Route.post('/login', 'AuthController.login')
+Route.post('/register', 'AuthController.register')
