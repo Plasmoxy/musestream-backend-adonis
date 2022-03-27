@@ -29,6 +29,13 @@ Route.get('/', async ({ request }) => {
 Route.group(() => {
   Route.get('', 'DebugsController.index')
   Route.get('/hello', 'DebugsController.hello')
+  
+  // require auth on this route
+  Route.get('/auth', 'DebugsController.auth').middleware('auth')
+  
+  // NOTE: you can specify that this route is only for admin / only for teacher by addding :admin / :teacher
+  // Route.get('/auth', 'DebugsController.auth').middleware('auth:admin')
+  
 }).prefix('/debug')
 
 // Auth

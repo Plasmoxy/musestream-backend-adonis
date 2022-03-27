@@ -13,4 +13,10 @@ export default class DebugsController {
     logger.info('Hello')
     return {}
   }
+  
+  public async auth({ auth }: HttpContextContract) {
+    return {
+      authedUser: auth.user,
+    }
+  }
 }

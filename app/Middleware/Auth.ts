@@ -2,6 +2,8 @@ import { GuardsList } from '@ioc:Adonis/Addons/Auth'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { AuthenticationException } from '@adonisjs/auth/build/standalone'
 
+// Note: auth is custom made
+
 /**
  * Auth middleware is meant to restrict un-authenticated access to a given route
  * or a group of routes.
@@ -63,14 +65,33 @@ export default class AuthMiddleware {
   public async handle (
     { auth }: HttpContextContract,
     next: () => Promise<void>,
-    customGuards: (keyof GuardsList)[]
+    allowedUserTypes?: string[] // NOTE: SPECIFY ROLES TO RESTRICT ROUTE TO SPECIFIC USER ROLES !
   ) {
     /**
      * Uses the user defined guards or the default guard mentioned in
      * the config file
      */
+    const customGuards = []
     const guards = customGuards.length ? customGuards : [auth.name]
     await this.authenticate(auth, guards)
+    
+    // custom logic - we check user role if role
+    // else: otherwise allow all types
+    if (allowedUserTypes?.length) {
+      const user = auth.user!
+      
+      // if user not in specified types
+      if (!(user && user.type in allowedUserTypes)) {
+        throw new AuthenticationException(
+          'Unauthorized access for user type, allowed types: ' + allowedUserTypes.join(','),
+          'E_UNAUTHORIZED_ACCESS_TYPE',
+          'api',
+          this.redirectTo,
+        )
+      }
+    }
+    
+    // continue with request
     await next()
   }
 }
