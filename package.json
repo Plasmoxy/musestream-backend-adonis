@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "init": "node ace migration:fresh && node ace db:seed",
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
     "start": "node server.js",
