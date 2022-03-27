@@ -1,11 +1,16 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class DebugsController {
-  public async index(ctx: HttpContextContract) {
-    return { dogs: ['a', 'b', 'c'] }
+  public async index({ request }: HttpContextContract) {
+    return {
+      dogs: ['a', 'b', 'c'],
+      queryString: request.qs(),
+      params: request.params(),
+    }
   }
 
-  public async hello(ctx: HttpContextContract) {
-    console.log('helo')
+  public async hello({ logger }: HttpContextContract) {
+    logger.info('Hello')
+    return {}
   }
 }

@@ -20,10 +20,20 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ request, response }) => {
+// root
+Route.get('/', async ({ request }) => {
   return { hello: 'world', t: request.body }
 })
 
+// debug stuff
+Route.group(() => {
+  Route.get('', 'DebugsController.index')
+  Route.get('/hello', 'DebugsController.hello')
+}).prefix('/debug')
 
-Route.get('/debug', 'DebugsController.index')
-
+// apis
+Route.group(() => {
+  
+  
+  
+}).prefix('/api')
