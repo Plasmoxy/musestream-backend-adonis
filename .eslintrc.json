@@ -1,0 +1,9 @@
+{
+  "extends": ["plugin:adonis/typescriptApp"],
+  "rules": {
+    "padded-blocks": "off",
+    "no-trailing-spaces": "off",
+    "no-multiple-empty-lines": "off",
+    "@typescript-eslint/space-before-function-paren": "off"
+  }
+}
