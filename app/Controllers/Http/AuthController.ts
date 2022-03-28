@@ -31,7 +31,8 @@ export default class AuthController {
     })
 
     // custom exception when user exists, adonis automatically returns status code
-    if (await User.findBy('name', body.name)) {
+    const userInDb = await User.findBy('name', body.name)
+    if (userInDb != null) {
       throw new Exception('User with name ' + body.name + ' already exists.', 400, 'USER_EXISTS')
     }
 

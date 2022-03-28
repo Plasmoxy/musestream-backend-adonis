@@ -1,16 +1,18 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User'
 import { schema } from '@ioc:Adonis/Core/Validator'
+import User from 'App/Models/User'
 
 export default class UsersController {
-  public async all() {
-    return await User.all()
+  public async all({}: HttpContextContract) {
+    //return await User.all()
+    const users = await User.all()
+    return users
   }
 
   public async get({ request }: HttpContextContract) {
     const usr = await User.find(request.param('id'))
-    
+
     if (usr === null) {
       throw new Exception('User not found', 404)
     }
@@ -35,10 +37,10 @@ export default class UsersController {
 
   public async delete({ request }: HttpContextContract) {
     const usr = await User.find(request.param('id'))
-    
+
     if (usr === null) throw new Exception('User not found', 404)
     if (usr.id === 1) throw new Exception('Admin delete not allowed', 400)
-    
+
     await usr.delete()
   }
 }
