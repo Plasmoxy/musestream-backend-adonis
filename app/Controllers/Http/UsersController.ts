@@ -9,7 +9,8 @@ export default class UsersController {
   }
 
   public async get({ request }: HttpContextContract) {
-    const usr = await User.query().where('id', request.param('id')).preload('classes')
+    const usr = await User.find(request.param('id'))
+    
     if (usr === null) {
       throw new Exception('User not found', 404)
     }
