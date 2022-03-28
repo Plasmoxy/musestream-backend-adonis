@@ -27,7 +27,7 @@ const hashConfig: HashConfig = {
   | free to change the default value
   |
   */
-  default: Env.get('HASH_DRIVER', 'bcrypt'),
+  default: Env.get('HASH_DRIVER', 'argon'),
 
   list: {
     /*
