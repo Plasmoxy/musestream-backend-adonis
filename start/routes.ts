@@ -41,3 +41,10 @@ Route.group(() => {
 // Auth
 Route.post('/login', 'AuthController.login')
 Route.post('/register', 'AuthController.register')
+
+// Users - admin only
+Route.group(() => {
+  Route.get('/', 'UsersController.all')
+  Route.get('/:id', 'UsersController.get').where('id', Route.matchers.number())
+  Route.patch('/:id', 'UsersController.update').where('id', Route.matchers.number())
+}).prefix('users').middleware('auth:admin')

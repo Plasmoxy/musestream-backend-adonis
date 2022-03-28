@@ -1,14 +1,16 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
-
-export type UserType = 'student' | 'teacher' | 'admin'
+import Class from './Class'
 
 export default class User extends BaseModel {
   public static table = 'users'
 
   @column({ isPrimary: true })
   public id: number
+  
+  @hasMany(() => Class, {foreignKey: 'teacherId'})
+  public classes: HasMany<typeof Class>
 
   @column()
   public name: string
@@ -17,7 +19,7 @@ export default class User extends BaseModel {
   public email: string
 
   @column()
-  public type: UserType
+  public type: string
 
   @column()
   public pictureUrl: string

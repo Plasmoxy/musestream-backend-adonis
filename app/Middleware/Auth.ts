@@ -78,12 +78,12 @@ export default class AuthMiddleware {
     // custom logic - we check user role if role
     // else: otherwise allow all types
     if (allowedUserTypes?.length) {
-      const user = auth.user!
+      const user = auth.user
       
-      // if user not in specified types
-      if (!(user && user.type in allowedUserTypes)) {
+      // if user non existent or not in specified types
+      if (user === null || !(allowedUserTypes.includes(user!.type))) {
         throw new AuthenticationException(
-          'Unauthorized access for user type, allowed types: ' + allowedUserTypes.join(','),
+          'Unauthorized access for user type, allowed types: ' + JSON.stringify(allowedUserTypes),
           'E_UNAUTHORIZED_ACCESS_TYPE',
           'api',
           this.redirectTo,
