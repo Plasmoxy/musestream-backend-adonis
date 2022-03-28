@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Class from './Class'
@@ -21,7 +20,7 @@ export default class User extends BaseModel {
   @column()
   public type: string
 
-  @column()
+  @column({columnName: 'picture_url'})
   public pictureUrl: string
 
   // force null serialisation - do not allow passwords in JSON !

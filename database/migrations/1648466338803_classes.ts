@@ -9,7 +9,7 @@ export default class Classes extends BaseSchema {
       table.string('title')
       table.string('description', 1024)
       table.string('instrument')
-      table.integer('teacherId').unsigned().references('users.id').onDelete('CASCADE')
+      table.integer('teacher_id').unsigned().references('users.id').onDelete('CASCADE')
     })
   }
 

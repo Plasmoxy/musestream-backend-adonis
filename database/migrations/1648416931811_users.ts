@@ -10,7 +10,7 @@ export default class Users extends BaseSchema {
       table.string('email').notNullable().defaultTo('')
       table.string('type').notNullable().defaultTo('student')
       table.string('password').notNullable()
-      table.string('pictureUrl').notNullable().defaultTo('')
+      table.string('picture_url').notNullable().defaultTo('')
     })
   }
 
