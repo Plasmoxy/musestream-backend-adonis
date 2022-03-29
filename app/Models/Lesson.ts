@@ -1,4 +1,4 @@
-import { BaseModel, column, HasManyThrough, hasManyThrough } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasManyThrough, hasManyThrough } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import ClassStudent from './ClassStudent'
 import User from './User'
@@ -9,6 +9,9 @@ export default class Lesson extends BaseModel {
 
   @column()
   public classStudentId: number
+  
+  @belongsTo(() => ClassStudent)
+  public classStudent: BelongsTo<typeof ClassStudent>
 
   @hasManyThrough([() => User, () => ClassStudent])
   public students: HasManyThrough<typeof User>

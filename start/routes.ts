@@ -111,10 +111,10 @@ Route.group(() => {
 
 // Lessons
 Route.group(() => {
-  Route.get(':id', 'LessonsController.getLEssons')
+  Route.get(':id', 'LessonsController.getLesson')
     .middleware('auth')
     .where('id', Route.matchers.number())
-  Route.put(':id', 'LessonsController.updateLessons')
+  Route.put(':id', 'LessonsController.updateLesson')
     .middleware('auth:teacher')
     .where('id', Route.matchers.number())
   Route.delete(':id', 'LessonsController.deleteLesson')
