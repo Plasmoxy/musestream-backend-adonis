@@ -36,7 +36,7 @@ Route.group(() => {
   // NOTE: you can specify that this route is only for admin / only for teacher by addding :admin / :teacher
   // Route.get('/auth', 'DebugsController.auth').middleware('auth:admin')
   
-}).prefix('/debug')
+}).prefix('/debug').middleware('auth')
 
 // Auth
 Route.post('/login', 'AuthController.login')

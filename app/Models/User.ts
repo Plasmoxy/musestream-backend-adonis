@@ -1,15 +1,19 @@
 import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
 import Class from './Class'
+import Message from './Message'
 
 export default class User extends BaseModel {
   public static table = 'users'
-
+  
   @column({ isPrimary: true })
   public id: number
   
   @hasMany(() => Class, {foreignKey: 'teacherId'})
   public classes: HasMany<typeof Class>
+  
+  @hasMany(() => Message, {foreignKey: 'authorId'})
+  public messages: HasMany<typeof Message>
 
   @column()
   public name: string

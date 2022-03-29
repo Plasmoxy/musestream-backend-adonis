@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 
 export default class Class extends BaseModel {
@@ -9,8 +9,8 @@ export default class Class extends BaseModel {
   @column()
   public teacherId: number
   
-  @hasOne(() => User)
-  public teacher: HasOne<typeof User>
+  @belongsTo(() => User, {foreignKey: 'teacherId'})
+  public teacher: BelongsTo<typeof User>
   
   @column()
   public title: string
