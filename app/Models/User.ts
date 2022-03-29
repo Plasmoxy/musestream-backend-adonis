@@ -19,8 +19,8 @@ export default class User extends BaseModel {
 
   @column()
   public type: string
-
-  @column({columnName: 'picture_url'})
+  
+  @column()
   public pictureUrl: string
 
   // force null serialisation - do not allow passwords in JSON !

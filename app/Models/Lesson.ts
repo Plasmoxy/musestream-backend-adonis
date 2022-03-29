@@ -5,7 +5,7 @@ export default class Lesson extends BaseModel {
   @column({ isPrimary: true })
   public id: number
   
-  @column({ columnName: 'class_student_id' })
+  @column()
   public classStudentId: number
   
   @column()

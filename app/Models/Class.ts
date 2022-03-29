@@ -6,7 +6,7 @@ export default class Class extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column({columnName: 'teacher_id'})
+  @column()
   public teacherId: number
   
   @hasOne(() => User)

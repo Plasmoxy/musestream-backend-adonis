@@ -1,20 +1,20 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class ClassRequest extends BaseModel {
+export default class Message extends BaseModel {
   @column({ isPrimary: true })
   public id: number
   
   @column()
-  public classId: number
+  public lessonId: number
   
   @column()
-  public studentId: number
+  public authorId: number
   
   @column.dateTime()
   public date: DateTime
   
   @column()
-  public message: string
+  public content: string
   
 }

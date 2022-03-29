@@ -11,7 +11,7 @@ export default class File extends BaseModel {
   @column()
   public path: string
   
-  @column({columnName: 'class_id'})
+  @column()
   public classId: number
   
 }

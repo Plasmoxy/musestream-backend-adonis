@@ -4,9 +4,9 @@ export default class ClassStudent extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column({columnName: 'class_id'})
+  @column()
   public classId: number
   
-  @column({columnName: 'student_id'})
+  @column()
   public studentId: number
 }
