@@ -131,5 +131,5 @@ Route.group(() => {
 }).prefix('/lessons')
 
 // Files
-Route.post('/files', 'FilesController.uploadFile').middleware('auth:teacher')
+Route.post('/classfiles/:id', 'FilesController.uploadFile').middleware('auth:teacher')
 Route.get('/classfiles/:id', 'FilesController.getClassFiles')
