@@ -4,9 +4,11 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
 
 export default class UsersController {
-  public async all({}: HttpContextContract) {
+  public async all({auth}: HttpContextContract) {
     //return await User.all()
     const users = await User.all()
+
+    auth.user?.name
     return users
   }
 

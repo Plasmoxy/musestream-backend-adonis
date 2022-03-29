@@ -1,18 +1,13 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class FilesController {
-  // GET /files
-  public async all({}: HttpContextContract) {}
+  public async getAllFiles({}: HttpContextContract) {}
 
-  // POST /files
-  public async create({}: HttpContextContract) {}
+  public async uploadFile({}: HttpContextContract) {}
 
-  // GET /files/{recordId}
-  public async get({}: HttpContextContract) {}
+  public async downloadFile({}: HttpContextContract) {}
 
-  // PUT /files/{recordId}
-  public async update({}: HttpContextContract) {}
+  public async updateFile({}: HttpContextContract) {}
 
-  // DELETE /files{recodId}
-  public async delete({}: HttpContextContract) {}
+  public async deleteFile({}: HttpContextContract) {}
 }

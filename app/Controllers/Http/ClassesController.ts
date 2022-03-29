@@ -4,14 +4,11 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import Class from 'App/Models/Class'
 
 export default class ClassesController {
-  // GET /classes
-  public async getClassesOfUser({auth}: HttpContextContract) {
+  public async getClassesOfUser({ auth }: HttpContextContract) {
     return auth.user
   }
 
-  // POST /classes
-  public async create({ auth, request, response }: HttpContextContract) {
-    // TODO preverit ci je TEACHER
+  public async createNewClass({ request }: HttpContextContract) {
     const body = await request.validate({
       schema: schema.create({
         title: schema.string(),
@@ -23,11 +20,9 @@ export default class ClassesController {
     })
   }
 
-  // GET /classes/{id}
-  public async get({ request }: HttpContextContract) {}
+  public async getClass({}: HttpContextContract) {}
 
-  // PUT /classes/{id}
-  public async update({ request }: HttpContextContract) {
+  public async updateClass({ request }: HttpContextContract) {
     const body = await request.validate({
       schema: schema.create({
         title: schema.string(),
@@ -39,8 +34,7 @@ export default class ClassesController {
     })
   }
 
-  // DELETE /classes/{id}
-  public async delete({ request }: HttpContextContract) {
+  public async deleteClass({ request }: HttpContextContract) {
     const cls = await Class.find(request.param('id'))
 
     if (cls === null) throw new Exception('Class not found', 404)
