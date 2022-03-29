@@ -587,7 +587,7 @@ paths:
         404:
           description: not found
           
-  /files/file_path:
+  /static/file_path:
     get:
       tags:
         - Files
@@ -595,32 +595,6 @@ paths:
       responses:
         200:
           description: file
-  
-  /files:
-    post:
-      tags:
-        - Files
-      summary: upload new file, returns record of this file
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                filename:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
-      responses:
-        200: 
-          description: file metadata
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/File'
-        400:
-          description: invalid request
           
   /classfiles/{id}:
     get:
@@ -643,6 +617,35 @@ paths:
                 $ref: '#/components/schemas/File'
         404:
           description: class not found
+    post:
+      tags:
+        - Files
+      summary: upload new file for class as teacher, returns record of this file
+      parameters:
+        - in: path
+          required: true
+          name: id
+          description: id of class
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        200: 
+          description: file metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        400:
+          description: invalid request
     
           
 
@@ -758,12 +761,7 @@ components:
     MessageBase:
       type: object
       properties:
-        lessonId:
-          type: number
-        authorId:
-          type: number
-        date:
-          type: string
+       
         content:
           type: string
     Message:
@@ -771,5 +769,11 @@ components:
         - $ref: "#/components/schemas/MessageBase"
       type: object
       properties:
+        date:
+          type: string
+        lessonId:
+          type: number
+        authorId:
+          type: number
         id:
           type: number
