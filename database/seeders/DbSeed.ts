@@ -1,7 +1,10 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import Class from 'App/Models/Class'
+import ClassRequest from 'App/Models/ClassRequest'
 import ClassStudent from 'App/Models/ClassStudent'
+import Lesson from 'App/Models/Lesson'
 import User from 'App/Models/User'
+import { DateTime } from 'luxon'
 
 export default class DbSeedSeeder extends BaseSeeder {
   public async run () {
@@ -60,6 +63,14 @@ export default class DbSeedSeeder extends BaseSeeder {
     const jankoInGuitarC = await ClassStudent.create({
       classId: guitarc.id,
       studentId: janko.id,
+    })
+    
+    // alica is not in guitar class, she requests it
+    const alicaRequest = await ClassRequest.create({
+      date: DateTime.now(),
+      classId: pianoc.id,
+      message: 'yoo',
+      studentId: alica.id,
     })
     
   }
