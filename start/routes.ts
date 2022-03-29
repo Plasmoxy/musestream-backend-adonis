@@ -58,6 +58,7 @@ Route.group(() => {
   // Basic classes
   Route.get('/', 'ClassesController.getClassesOfUser').middleware('auth:teacher,student')
   Route.post('/', 'ClassesController.createNewClass').middleware('auth:teacher')
+  Route.get('/all', 'ClassesController.getAllClasses').middleware('auth')
   Route.get('/:id', 'ClassesController.getClass')
     .middleware('auth')
     .where('id', Route.matchers.number())

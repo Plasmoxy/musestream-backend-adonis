@@ -4,6 +4,11 @@ import { schema } from '@ioc:Adonis/Core/Validator'
 import Class from 'App/Models/Class'
 
 export default class ClassesController {
+  
+  public async getAllClasses() {
+    return await Class.query()
+  }
+  
   public async getClassesOfUser({ auth }: HttpContextContract) {
     // if its teacher, just get related classes
     if (auth.user!.type === 'teacher') {
