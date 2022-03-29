@@ -93,6 +93,10 @@ Route.group(() => {
     .middleware('auth:teacher')
     .where('id', Route.matchers.number())
     .where('studentId', Route.matchers.number())
+  Route.post('/:id/students/:studentId/lessons', 'ClassStudentsController.addLesson')
+    .middleware('auth:teacher')
+    .where('id', Route.matchers.number())
+    .where('studentId', Route.matchers.number())
 }).prefix('/classes')
 
 // Requests

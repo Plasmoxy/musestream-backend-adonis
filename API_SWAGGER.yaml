@@ -201,13 +201,14 @@ paths:
             type: string
       responses:
         200:
-          description: user
+          description: class
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Class'
         404:
           description: not found
+        
     put:
       tags:
         - Classes
@@ -232,6 +233,8 @@ paths:
                 $ref: '#/components/schemas/Class'
         404:
           description: not found
+        400:
+          description: not allowed
     delete:
       tags:
         - Classes
@@ -247,6 +250,8 @@ paths:
           description: delete ok
         404:
           description: not found
+        400:
+          description: not allowed
   
   /classes/{id}/students:
     get:
@@ -268,8 +273,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-  
-  /classes/{id}/students/{studentId}:
     post:
       tags:
         - Class students
@@ -280,16 +283,24 @@ paths:
           name: id
           schema:
             type: string
-        - in: path
-          required: true
-          name: studentId
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                studentName: 
+                  type: string
       responses:
         200:
           description: student added to class
         404:
-          description: not found
+          description: not found student or class
+        400:
+          description: student already in class
+  
+          
+  /classes/{id}/students/{studentId}:
     delete:
       tags:
         - Class students
@@ -308,8 +319,6 @@ paths:
       responses:
         200:
           description: student removed from class
-        404:
-          description: not found
       
         
   
@@ -374,6 +383,8 @@ paths:
           description: request accepted (should add student to class)
         404: 
           description: not found
+        400:
+          description: must be teacher of this class, or student is already in class
     delete:
       tags:
         - Requests
@@ -389,6 +400,8 @@ paths:
           description: request deleted
         404: 
           description: not found
+        400:
+          description: must be teacher of this class
       
   /classes/{classId}/students/{studentId}/lessons:
     get:
@@ -407,7 +420,7 @@ paths:
           schema:
             type: string
       responses:
-       200: 
+        200: 
           description: lessons of this class student
           content:
             application/json:
@@ -415,6 +428,40 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Lesson'
+        404:
+          description: student not in class or class doesnt exist
+          
+    post:
+      tags:
+        - Class students
+      summary: create new lesson by class id and student id
+      parameters:
+        - in: path
+          required: true
+          name: classId
+          schema:
+            type: string
+        - in: path
+          required: true
+          name: studentId
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LessonBase"
+      responses:
+        200: 
+          description: lesson of this class student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+        404:
+          description: student not in class or class doesnt exist
+        400:
+          description: invalid data
   
   /lessons/{id}:
     get:
@@ -670,8 +717,7 @@ components:
             type: string
           instrument:
             type: string
-          teacherId:
-            type: number
+          
     Class:
       allOf:
         - $ref: "#/components/schemas/ClassBase"
@@ -679,9 +725,18 @@ components:
       properties:
         id:
           type: number
+        teacherId:
+            type: number
           
     
     ClassRequestBase:
+      type: object
+      properties:
+        message:
+          type: string
+    ClassRequest:
+      allOf:
+        - $ref: "#/components/schemas/ClassRequestBase"
       type: object
       properties:
         classId:
@@ -690,13 +745,6 @@ components:
           type: number
         date:
           type: string
-        message:
-          type: string
-    ClassRequest:
-      allOf:
-        - $ref: "#/components/schemas/ClassRequestBase"
-      type: object
-      properties:
         id:
           type: number
     
@@ -722,15 +770,11 @@ components:
     LessonBase:
       type: object
       properties:
-        classStudentId:
-          type: number
         notes:
           type: string 
         start:
           type: string
         end:
-          type: string
-        videoConnection:
           type: string
     Lesson:
       allOf:
@@ -738,6 +782,8 @@ components:
       type: object
       properties:
         id:
+          type: number
+        classStudentId:
           type: number
             
     MessageBase:
