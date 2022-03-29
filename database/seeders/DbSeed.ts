@@ -37,13 +37,13 @@ export default class DbSeedSeeder extends BaseSeeder {
       type: 'teacher',
     })
     
-    const pianoc = await ikotul.related('classes').create({
+    const pianoc = await ikotul.related('teacherClasses').create({
       description: 'pianonono',
       instrument: 'piano',
       title: 'Piano class',
     })
     
-    const guitarc = await ikotul.related('classes').create({
+    const guitarc = await ikotul.related('teacherClasses').create({
       description: 'giratroor',
       instrument: 'guitar',
       title: 'Guitar class',
@@ -68,7 +68,7 @@ export default class DbSeedSeeder extends BaseSeeder {
     // alica is not in guitar class, she requests it
     const alicaRequest = await ClassRequest.create({
       date: DateTime.now(),
-      classId: pianoc.id,
+      classId: guitarc.id,
       message: 'yoo',
       studentId: alica.id,
     })

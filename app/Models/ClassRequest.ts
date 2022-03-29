@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import Class from './Class'
 
 export default class ClassRequest extends BaseModel {
   @column({ isPrimary: true })
@@ -7,6 +8,9 @@ export default class ClassRequest extends BaseModel {
   
   @column()
   public classId: number
+  
+  @belongsTo(() => Class)
+  public class: BelongsTo<typeof Class>
   
   @column()
   public studentId: number
