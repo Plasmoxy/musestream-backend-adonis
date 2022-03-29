@@ -50,10 +50,14 @@ export default class RequestsController {
     }
     
     // other wise add to class
-    return await ClassStudent.create({
+    const cs = await ClassStudent.create({
       classId: req.classId,
       studentId: req.studentId,
     })
+    
+    await req.delete()
+    
+    return cs
   }
 
   public async deleteRequest({request, auth}: HttpContextContract) {
