@@ -17,7 +17,7 @@ export default class Message extends BaseModel {
   public authorId: number
   
   @belongsTo(() => User, {foreignKey: 'authorId'})
-  public user: BelongsTo<typeof User>
+  public author: BelongsTo<typeof User>
   
   @column.dateTime()
   public date: DateTime

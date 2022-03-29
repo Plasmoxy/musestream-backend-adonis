@@ -1,19 +1,34 @@
-import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
+import {
+  BaseModel,
+  beforeSave,
+  column,
+  HasMany,
+  hasMany,
+  ManyToMany,
+  manyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import Class from './Class'
 import Message from './Message'
 
 export default class User extends BaseModel {
   public static table = 'users'
-  
+
   @column({ isPrimary: true })
   public id: number
-  
-  @hasMany(() => Class, {foreignKey: 'teacherId'})
-  public classes: HasMany<typeof Class>
-  
-  @hasMany(() => Message, {foreignKey: 'authorId'})
+
+  @hasMany(() => Class, { foreignKey: 'teacherId' })
+  public teacherClasses: HasMany<typeof Class>
+
+  @hasMany(() => Message, { foreignKey: 'authorId' })
   public messages: HasMany<typeof Message>
+
+  @manyToMany(() => Class, {
+    pivotForeignKey: 'student_id',
+    pivotRelatedForeignKey: 'class_id',
+    pivotTable: 'class_students',
+  })
+  public studentClasses: ManyToMany<typeof Class>
 
   @column()
   public name: string
@@ -23,7 +38,7 @@ export default class User extends BaseModel {
 
   @column()
   public type: string
-  
+
   @column()
   public pictureUrl: string
 

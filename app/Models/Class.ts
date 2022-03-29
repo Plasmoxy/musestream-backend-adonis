@@ -19,7 +19,7 @@ export default class Class extends BaseModel {
   @belongsTo(() => User, { foreignKey: 'teacherId' })
   public teacher: BelongsTo<typeof User>
 
-  @hasManyThrough([() => User, () => ClassStudent], { throughForeignKey: 'student_id' })
+  @hasManyThrough([() => User, () => ClassStudent], { throughForeignKey: 'studentId' })
   public students: HasManyThrough<typeof User>
 
   @column()
