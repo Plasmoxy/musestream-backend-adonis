@@ -29,14 +29,15 @@ Route.get('/', async ({ request }) => {
 Route.group(() => {
   Route.get('', 'DebugsController.index')
   Route.get('/hello', 'DebugsController.hello')
-  
+
   // require auth on this route
   Route.get('/auth', 'DebugsController.auth').middleware('auth')
-  
+
   // NOTE: you can specify that this route is only for admin / only for teacher by addding :admin / :teacher
   // Route.get('/auth', 'DebugsController.auth').middleware('auth:admin')
-  
-}).prefix('/debug').middleware('auth')
+})
+  .prefix('/debug')
+  .middleware('auth')
 
 // Auth
 Route.post('/login', 'AuthController.login')
@@ -47,4 +48,11 @@ Route.group(() => {
   Route.get('/', 'UsersController.all')
   Route.get('/:id', 'UsersController.get').where('id', Route.matchers.number())
   Route.patch('/:id', 'UsersController.update').where('id', Route.matchers.number())
-}).prefix('users').middleware('auth:admin')
+})
+  .prefix('/users')
+  .middleware('auth:admin')
+
+// Classes
+Route.group(() => {
+  Route.get('/', 'ClassesController.getClassesOfUser').middleware('auth:teacher,student')
+}).prefix('/classes')
