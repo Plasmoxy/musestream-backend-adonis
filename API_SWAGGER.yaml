@@ -587,24 +587,20 @@ paths:
         404:
           description: not found
           
-  /files:
+  /files/file_path:
     get:
       tags:
         - Files
-      summary: get all files in DB (file records)
+      summary: access file through its path (static path)
       responses:
         200:
-          description: list of files
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/File'
+          description: file
+  
+  /files:
     post:
       tags:
         - Files
-      summary: upload new file, include file metadata and file itself as multipart data
+      summary: upload new file, returns record of this file
       requestBody:
         content:
           multipart/form-data:
@@ -624,39 +620,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/File'
         400:
-          description: invalid request (data or file)
-        
-  /files/{recordId}:
+          description: invalid request
+          
+  /classfiles/{id}:
     get:
       tags:
         - Files
-      summary: download file by record ID
+      summary: get file records of class
       parameters:
         - in: path
           required: true
-          name: recordId
+          name: id
+          description: id of class
           schema:
             type: string
-      responses:
-        200: 
-          description: file data
-        404:
-          description: such file not found
-    put:
-      tags:
-        - Files
-      summary: update file metadata
-      parameters:
-        - in: path
-          required: true
-          name: recordId
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FileBase"
       responses:
         200: 
           description: file metadata
@@ -664,30 +641,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/File'
-        400:
-          description: invalid request (data or file)
         404:
-          description: such file not found
-          
-    delete:
-      tags:
-        - Files
-      summary: delete file and its record
-      parameters:
-        - in: path
-          required: true
-          name: recordId
-          schema:
-            type: string
-      responses:
-        200: 
-          description: file deleted
-        400:
-          description: invalid request (data or file)
-        404:
-          description: such file not found
-        
-          
+          description: class not found
     
           
 

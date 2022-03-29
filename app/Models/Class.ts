@@ -9,6 +9,7 @@ import {
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import ClassRequest from './ClassRequest'
+import File from './File'
 import User from './User'
 
 export default class Class extends BaseModel {
@@ -30,6 +31,9 @@ export default class Class extends BaseModel {
 
   @hasMany(() => ClassRequest)
   public requests: HasMany<typeof ClassRequest>
+  
+  @hasMany(() => File)
+  public files: HasMany<typeof File>
 
   @column()
   public title: string

@@ -9,9 +9,9 @@ export default class Files extends BaseSchema {
       table.string('title').notNullable().defaultTo('')
       table.string('path').notNullable().defaultTo('')
       table
-        .integer('lesson_id')
+        .integer('class_id')
         .unsigned()
-        .references('lessons.id')
+        .references('classes.id')
         .notNullable()
         .onDelete('CASCADE')
     })

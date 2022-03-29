@@ -131,16 +131,5 @@ Route.group(() => {
 }).prefix('/lessons')
 
 // Files
-Route.group(() => {
-  Route.get('/', 'FilesController.getAllFiles').middleware('auth:admin')
-  Route.post('/', 'FilesController.uploadFile').middleware('auth')
-  Route.get('/:recordId', 'FilesController.downloadFile')
-    .middleware('auth')
-    .where('recordId', Route.matchers.number())
-  Route.put('/:recordId', 'FilesController.updateFile')
-    .middleware('auth')
-    .where('recordId', Route.matchers.number())
-  Route.delete('/:recordId', 'FilesController.deleteFile')
-    .middleware('auth')
-    .where('recordId', Route.matchers.number())
-}).prefix('/files')
+Route.post('/files', 'FilesController.uploadFile').middleware('auth:teacher')
+Route.get('/classfiles/:id', 'FilesController.getClassFiles')
