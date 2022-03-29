@@ -55,6 +55,7 @@ Route.group(() => {
 
 // Classes
 Route.group(() => {
+  // Basic classes
   Route.get('/', 'ClassesController.getClassesOfUser').middleware('auth:teacher,student')
   Route.post('/', 'ClassesController.createNewClass').middleware('auth:teacher')
   Route.get('/:id', 'ClassesController.getClass')
@@ -66,12 +67,32 @@ Route.group(() => {
   Route.delete('/:id', 'ClassesController.deleteClass')
     .middleware('auth:teacher')
     .where('id', Route.matchers.number())
+
+  // Class requests
   Route.get('/:id/requests', 'RequestsController.getClassRequests')
     .middleware('auth:teacher,student')
     .where('id', Route.matchers.number())
   Route.post('/:id/requests', 'RequestsController.createClassRequest')
     .middleware('auth:student')
     .where('id', Route.matchers.number())
+
+  // Class students
+  Route.get('/:id/students', 'ClassStudentsController.getStudents')
+    .middleware('auth:teacher')
+    .where('id', Route.matchers.number())
+  Route.post('/:id/students', 'ClassStudentsController.addStudent')
+    .middleware('auth:teacher')
+    .where('id', Route.matchers.number())
+  Route.delete('/:id/students/:studentId', 'ClassStudentsController.removeStudent')
+    .middleware('auth:teacher')
+    .where('id', Route.matchers.number())
+    .where('studentId', Route.matchers.number())
+    
+  // Lessons
+  Route.get('/:id/students/:studentId/lessons', 'ClassStudentsController.getLessons')
+    .middleware('auth:teacher')
+    .where('id', Route.matchers.number())
+    .where('studentId', Route.matchers.number())
 }).prefix('/classes')
 
 // Requests
@@ -103,25 +124,6 @@ Route.group(() => {
     .middleware('auth')
     .where('id', Route.matchers.number())
 }).prefix('/lessons')
-
-// ClassStudents
-Route.group(() => {
-  Route.get('/:id/students', 'ClassStudentsController.getStudents')
-    .middleware('auth:teacher')
-    .where('id', Route.matchers.number())
-  Route.post('/:id/students/:studentId', 'ClassStudentsController.addStudent')
-    .middleware('auth:teacher')
-    .where('id', Route.matchers.number())
-    .where('studentId', Route.matchers.number())
-  Route.delete('/:id/students/:studentId', 'ClassStudentsController.removeStudent')
-    .middleware('auth:teacher')
-    .where('id', Route.matchers.number())
-    .where('studentId', Route.matchers.number())
-  Route.get('/:classId/students/:studentId/lessons', 'ClassStudentsController.getLessons')
-    .middleware('auth:teacher')
-    .where('id', Route.matchers.number())
-    .where('studentId', Route.matchers.number())
-}).prefix('/classes')
 
 // Files
 Route.group(() => {

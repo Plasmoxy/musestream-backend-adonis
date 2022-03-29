@@ -50,7 +50,7 @@ export default class RequestsController {
     }
     
     // other wise add to class
-    await ClassStudent.create({
+    return await ClassStudent.create({
       classId: req.classId,
       studentId: req.studentId,
     })

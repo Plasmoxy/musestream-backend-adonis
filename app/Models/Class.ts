@@ -5,11 +5,10 @@ import {
   column,
   HasMany,
   hasMany,
-  HasManyThrough,
-  hasManyThrough,
+  manyToMany,
+  ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import ClassRequest from './ClassRequest'
-import ClassStudent from './ClassStudent'
 import User from './User'
 
 export default class Class extends BaseModel {
@@ -22,9 +21,13 @@ export default class Class extends BaseModel {
   @belongsTo(() => User, { foreignKey: 'teacherId' })
   public teacher: BelongsTo<typeof User>
 
-  @hasManyThrough([() => User, () => ClassStudent], { throughForeignKey: 'studentId' })
-  public students: HasManyThrough<typeof User>
-  
+  @manyToMany(() => User, {
+    pivotForeignKey: 'class_id',
+    pivotRelatedForeignKey: 'student_id',
+    pivotTable: 'class_students',
+  })
+  public students: ManyToMany<typeof User>
+
   @hasMany(() => ClassRequest)
   public requests: HasMany<typeof ClassRequest>
 
