@@ -83,7 +83,7 @@ export default class AuthMiddleware {
       // if user non existent or not in specified types
       if (user === null || !(allowedUserTypes.includes(user!.type))) {
         throw new AuthenticationException(
-          'Unauthorized access for user type, allowed types: ' + JSON.stringify(allowedUserTypes),
+          'Unauthorized access for user type, allowed types: ' + allowedUserTypes.join(','),
           'E_UNAUTHORIZED_ACCESS_TYPE',
           'api',
           this.redirectTo,

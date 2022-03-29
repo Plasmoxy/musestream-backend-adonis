@@ -21,7 +21,7 @@ export default class AuthController {
     }
   }
 
-  public async register({ auth, request, response }: HttpContextContract) {
+  public async register({ request }: HttpContextContract) {
     const body = await request.validate({
       schema: schema.create({
         name: schema.string(),
@@ -32,7 +32,7 @@ export default class AuthController {
 
     // custom exception when user exists, adonis automatically returns status code
     const userInDb = await User.findBy('name', body.name)
-    if (userInDb != null) {
+    if (userInDb !== null) {
       throw new Exception('User with name ' + body.name + ' already exists.', 400, 'USER_EXISTS')
     }
 

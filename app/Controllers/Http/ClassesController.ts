@@ -2,8 +2,6 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { Exception } from '@adonisjs/core/build/standalone'
 import { schema } from '@ioc:Adonis/Core/Validator'
 import Class from 'App/Models/Class'
-import User from 'App/Models/User'
-import authConfig from 'Config/auth'
 
 export default class ClassesController {
   public async getClassesOfUser({ auth }: HttpContextContract) {
@@ -26,7 +24,7 @@ export default class ClassesController {
 
   public async getClass({ request }: HttpContextContract) {
     const cls = await Class.find(request.param('id'))
-    if (cls == null) throw new Exception('Class not found', 404)
+    if (cls === null) throw new Exception('Class not found', 404)
 
     return cls
   }

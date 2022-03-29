@@ -19,7 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import RequestsController from 'App/Controllers/Http/RequestsController'
 
 // root
 Route.get('/', async ({ request }) => {
@@ -48,7 +47,7 @@ Route.post('/register', 'AuthController.register')
 Route.group(() => {
   Route.get('/', 'UsersController.all')
   Route.get('/:id', 'UsersController.get').where('id', Route.matchers.number())
-  Route.patch('/:id', 'UsersController.update').where('id', Route.matchers.number())
+  Route.put('/:id', 'UsersController.update').where('id', Route.matchers.number())
   Route.delete('/:id', 'UsersController.delete').where('id', Route.matchers.number())
 })
   .prefix('/users')

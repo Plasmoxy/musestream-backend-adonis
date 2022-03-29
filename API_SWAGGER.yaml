@@ -1,0 +1,760 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: API pre MTAA projekt - MuseStream
+  description: |
+    Seb a Otto
+    
+    Poznamky:
+    - pre autorizaciu pouzit Bearer token vrateny z /login endpointu, ak mate nespravny token vyhodi 401
+    - pri updatovani su polia optional, je mozne updatnut napr len 1 pole
+  
+tags:
+  - name: Users
+  - name: Classes
+  - name: Requests
+  - name: Lessons
+  - name: Class students
+  - name: Messages
+  - name: Files
+  
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Plasmoxy/MTAA-api/1
+  - url: http://localhost:80
+    
+
+paths:
+
+  /:
+    get:
+      tags:
+        - Users
+      summary: Get main page (test server ok)
+      responses:
+        200:
+          description: 'OK'
+
+  /login:
+    post:
+      tags:
+        - Users
+      summary: Login and get token, use this token in Bearer authorisation in all requests!
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        200:
+          description: 'Return token'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  token: 
+                    type: string
+        400:
+          description: Invalid credentials
+  
+  /register:
+    post:
+      tags:
+        - Users
+      summary: 'User registration, user type is student when registering.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        200:
+          description: Registered
+        400:
+          description: Invalid data
+  
+  /users:
+    get:
+      tags:
+        - Users
+      summary: fetch all users (only admin)
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: type of user
+      responses:
+        200:
+          description: all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: get user details
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: not found
+    put:
+      tags:
+        - Users
+      summary: update user if admin or if logged in as the updated user
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserBase"
+      responses:
+        200:
+          description: updated user data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    
+    delete:
+      tags:
+        - Users
+      summary: delete user
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200: 
+          description: user deleted
+        404: 
+          description: not found
+        
+  /classes:
+    get:
+      tags:
+        - Classes
+      summary: get associated classes of logged in user (teacher or student)
+      responses:
+        200:
+          description: list of classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
+    post:
+      tags:
+        - Classes
+      summary: create new class (teacher only)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClassBase"
+      responses:
+        200:
+          description: class created
+        400:
+          description: invalid
+    
+      
+    
+  /classes/{id}:
+    get:
+      tags:
+        - Classes
+      summary: get class info by id
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: not found
+    put:
+      tags:
+        - Classes
+      summary: update class info by id (only as teacher and must own the class)
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClassBase"
+      responses:
+        200: 
+          description: updated class
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+        404:
+          description: not found
+    delete:
+      tags:
+        - Classes
+      summary: delete class by id (only as teacher and must own the class)
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200: 
+          description: delete ok
+        404:
+          description: not found
+  
+  /classes/{id}/students:
+    get:
+      tags:
+        - Class students
+      summary: get list of student in this class
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+       200: 
+          description: class students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  
+  /classes/{id}/students/{studentId}:
+    post:
+      tags:
+        - Class students
+      summary: add student to class
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: path
+          required: true
+          name: studentId
+          schema:
+            type: string
+      responses:
+        200:
+          description: student added to class
+        404:
+          description: not found
+    delete:
+      tags:
+        - Class students
+      summary: remove student from class
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+        - in: path
+          required: true
+          name: studentId
+          schema:
+            type: string
+      responses:
+        200:
+          description: student removed from class
+        404:
+          description: not found
+      
+        
+  
+  /classes/{id}/requests:
+    get:
+      tags:
+        - Requests
+      summary: get class requests of this class
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+       200: 
+          description: class requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassRequest'
+    post:
+      tags:
+        - Requests
+      summary: create class request as student
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRequestBase'
+      responses:
+        200:
+          description: created class request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassRequest'
+        400:
+          description: invalid data
+      
+  /requests/{requestId}:
+    post:
+      tags:
+        - Requests
+      summary: accept request as teacher
+      parameters:
+        - in: path
+          required: true
+          name: requestId
+          schema:
+            type: string
+      responses:
+        200: 
+          description: request accepted (should add student to class)
+        404: 
+          description: not found
+    delete:
+      tags:
+        - Requests
+      summary: delete class request
+      parameters:
+        - in: path
+          required: true
+          name: requestId
+          schema:
+            type: string
+      responses:
+        200: 
+          description: request deleted
+        404: 
+          description: not found
+      
+  /classes/{classId}/students/{studentId}/lessons:
+    get:
+      tags:
+        - Class students
+      summary: get lessons of class student by class id and student id
+      parameters:
+        - in: path
+          required: true
+          name: classId
+          schema:
+            type: string
+        - in: path
+          required: true
+          name: studentId
+          schema:
+            type: string
+      responses:
+       200: 
+          description: lessons of this class student
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lesson'
+  
+  /lessons/{id}:
+    get:
+      tags:
+        - Lessons
+      summary: get lesson info by id
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+        404:
+          description: not found
+    put:
+      tags:
+        - Lessons
+      summary: update lesson info by id (only as teacher and must own the lesson)
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LessonBase"
+      responses:
+        200: 
+          description: updated lesson
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+        404:
+          description: not found
+      
+    delete:
+      tags:
+        - Lessons
+      summary: delete lesson by id (only as teacher and must own the lesson)
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200: 
+          description: delete ok
+        404:
+          description: not found
+  
+  /lessons/{id}/messages:
+    get:
+      tags:
+        - Messages
+      summary: get messages in lesson, sorted by date
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      responses:
+        200: 
+          description: messages of lesson
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        404:
+          description: not found
+    post:
+      tags:
+        - Messages
+      summary: send new message to lesson (create new message)
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageBase"
+      responses:
+        200: 
+          description: updated list of messages in lesson
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        404:
+          description: not found
+          
+  /files:
+    get:
+      tags:
+        - Files
+      summary: get all files in DB (file records)
+      responses:
+        200:
+          description: list of files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'
+    post:
+      tags:
+        - Files
+      summary: upload new file, include file metadata and file itself as multipart data
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        200: 
+          description: file metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        400:
+          description: invalid request (data or file)
+        
+  /files/{recordId}:
+    get:
+      tags:
+        - Files
+      summary: download file by record ID
+      parameters:
+        - in: path
+          required: true
+          name: recordId
+          schema:
+            type: string
+      responses:
+        200: 
+          description: file data
+        404:
+          description: such file not found
+    put:
+      tags:
+        - Files
+      summary: update file metadata
+      parameters:
+        - in: path
+          required: true
+          name: recordId
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileBase"
+      responses:
+        200: 
+          description: file metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        400:
+          description: invalid request (data or file)
+        404:
+          description: such file not found
+          
+    delete:
+      tags:
+        - Files
+      summary: delete file and its record
+      parameters:
+        - in: path
+          required: true
+          name: recordId
+          schema:
+            type: string
+      responses:
+        200: 
+          description: file deleted
+        400:
+          description: invalid request (data or file)
+        404:
+          description: such file not found
+        
+          
+    
+          
+
+components:
+  schemas:
+  
+    Auth:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+  
+    UserBase:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        pictureUrl:
+          type: string
+        type:
+          type: string
+          enum: [admin, student, teacher]
+    User:
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+      type: object
+      properties:
+        id:
+          type: number
+          
+    ClassBase:
+      type: object
+      properties:
+          title:
+            type: string
+          description:
+            type: string
+          instrument:
+            type: string
+          teacherId:
+            type: number
+    Class:
+      allOf:
+        - $ref: "#/components/schemas/ClassBase"
+      type: object
+      properties:
+        id:
+          type: number
+          
+    
+    ClassRequestBase:
+      type: object
+      properties:
+        classId:
+          type: number
+        studentId:
+          type: number
+        date:
+          type: string
+        message:
+          type: string
+    ClassRequest:
+      allOf:
+        - $ref: "#/components/schemas/ClassRequestBase"
+      type: object
+      properties:
+        id:
+          type: number
+    
+    FileBase:
+      type: object
+      properties:
+        title:
+          type: string
+        path:
+          type: string
+        classId:
+          type: number
+    
+    File:
+      allOf:
+        - $ref: "#/components/schemas/FileBase"
+      type: object
+      properties:
+        id:
+          type: number
+            
+            
+    LessonBase:
+      type: object
+      properties:
+        classStudentId:
+          type: number
+        notes:
+          type: string 
+        start:
+          type: string
+        end:
+          type: string
+        videoConnection:
+          type: string
+    Lesson:
+      allOf:
+          - $ref: "#/components/schemas/LessonBase"
+      type: object
+      properties:
+        id:
+          type: number
+            
+    MessageBase:
+      type: object
+      properties:
+        lessonId:
+          type: number
+        authorId:
+          type: number
+        date:
+          type: string
+        content:
+          type: string
+    Message:
+      allOf:
+        - $ref: "#/components/schemas/MessageBase"
+      type: object
+      properties:
+        id:
+          type: number
