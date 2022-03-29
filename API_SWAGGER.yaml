@@ -186,6 +186,20 @@ paths:
         400:
           description: invalid
     
+  /classes/all:
+    get:
+      tags:
+        - Classes
+      summary: get all classes in db
+      responses:
+        200:
+          description: list of classes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Class'
       
     
   /classes/{id}:
@@ -461,7 +475,7 @@ paths:
         404:
           description: student not in class or class doesnt exist
         400:
-          description: invalid data
+          description: invalid data - for example invalid dates
   
   /lessons/{id}:
     get:
