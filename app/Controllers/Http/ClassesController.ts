@@ -5,7 +5,8 @@ import Class from 'App/Models/Class'
 
 export default class ClassesController {
   public async getClassesOfUser({ auth }: HttpContextContract) {
-    return auth.user
+    const classes = await auth.user!.related('classes').query()
+    return classes
   }
 
   public async createNewClass({ request }: HttpContextContract) {
