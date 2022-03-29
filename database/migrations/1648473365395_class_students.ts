@@ -8,6 +8,7 @@ export default class ClassStudents extends BaseSchema {
       table.increments('id')
       table.integer('class_id').unsigned().references('classes.id').onDelete('CASCADE')
       table.integer('student_id').unsigned().references('users.id').onDelete('CASCADE')
+      table.unique(['class_id', 'student_id'])
     })
   }
 

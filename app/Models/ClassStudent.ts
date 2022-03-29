@@ -1,4 +1,5 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Lesson from './Lesson'
 
 export default class ClassStudent extends BaseModel {
   @column({ isPrimary: true })
@@ -6,7 +7,10 @@ export default class ClassStudent extends BaseModel {
 
   @column()
   public classId: number
-  
+
   @column()
   public studentId: number
+
+  @hasMany(() => Lesson)
+  public lessons: HasMany<typeof Lesson>
 }
