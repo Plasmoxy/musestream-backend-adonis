@@ -1,15 +1,11 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RequestsController {
-  // GET /classes/{id}requests
-  public async get({}: HttpContextContract) {}
+  public async getClassRequests({}: HttpContextContract) {}
 
-  // POST /classes/{id}requests
-  public async create({}: HttpContextContract) {}
+  public async createClassRequest({}: HttpContextContract) {}
 
-  // POST /requests/{requestId}
-  public async accept({}: HttpContextContract) {}
+  public async acceptRequest({}: HttpContextContract) {}
 
-  // DELETE /files{recodId}
-  public async delete({}: HttpContextContract) {}
+  public async deleteRequest({}: HttpContextContract) {}
 }

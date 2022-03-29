@@ -4,16 +4,16 @@ import Class from 'App/Models/Class'
 export default class DebugsController {
   public async index({ request, auth }: HttpContextContract) {
     const usr = auth.user!
-    
+
     const newClass = await Class.create({
       description: 'yosh',
       instrument: 'piano',
       title: 'Yoo',
       teacherId: usr.id,
     })
-    
+
     await newClass.load('teacher')
-    
+
     return newClass
   }
 
@@ -21,7 +21,7 @@ export default class DebugsController {
     logger.info('Hello')
     return {}
   }
-  
+
   public async auth({ auth }: HttpContextContract) {
     return {
       authedUser: auth.user,
