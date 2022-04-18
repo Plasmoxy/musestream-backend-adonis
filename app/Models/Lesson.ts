@@ -5,13 +5,10 @@ import {
   column,
   HasMany,
   hasMany,
-  HasManyThrough,
-  hasManyThrough,
 } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import ClassStudent from './ClassStudent'
 import Message from './Message'
-import User from './User'
 
 export default class Lesson extends BaseModel {
   @column({ isPrimary: true })
@@ -22,9 +19,6 @@ export default class Lesson extends BaseModel {
 
   @belongsTo(() => ClassStudent)
   public classStudent: BelongsTo<typeof ClassStudent>
-
-  @hasManyThrough([() => User, () => ClassStudent])
-  public students: HasManyThrough<typeof User>
 
   @hasMany(() => Message)
   public messages: HasMany<typeof Message>

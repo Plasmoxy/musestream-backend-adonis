@@ -9,6 +9,7 @@ import {
   manyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import Class from './Class'
+import ClassStudent from './ClassStudent'
 import Message from './Message'
 
 export default class User extends BaseModel {
@@ -29,6 +30,9 @@ export default class User extends BaseModel {
     pivotTable: 'class_students',
   })
   public studentClasses: ManyToMany<typeof Class>
+  
+  @hasMany(() => ClassStudent)
+  public classStudents: HasMany<typeof ClassStudent>
   
   @column()
   public fullName: string

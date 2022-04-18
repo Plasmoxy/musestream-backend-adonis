@@ -98,6 +98,12 @@ Route.group(() => {
     .middleware('auth:teacher')
     .where('id', Route.matchers.number())
     .where('studentId', Route.matchers.number())
+    
+    
+  // class lessons populated, if teacher all lessons, if student only student lessons
+  Route.get('/:id/lessons', 'ClassesController.getLessons')
+    .middleware('auth:teacher,student')
+    .where('id', Route.matchers.number())
 }).prefix('/classes')
 
 // Requests
@@ -121,7 +127,8 @@ Route.group(() => {
   Route.delete(':id', 'LessonsController.deleteLesson')
     .middleware('auth:teacher')
     .where('id', Route.matchers.number())
-  // Messages
+    
+  // Messages of lesson
   Route.get(':id/messages', 'MessagesController.getMessages')
     .middleware('auth')
     .where('id', Route.matchers.number())
