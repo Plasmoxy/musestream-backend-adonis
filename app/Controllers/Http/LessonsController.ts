@@ -19,6 +19,7 @@ export default class LessonsController {
         notes: schema.string.optional(),
         start: schema.string.optional(),
         end: schema.string.optional(),
+        roomId: schema.string.optional(),
       }),
     })
 
@@ -33,9 +34,13 @@ export default class LessonsController {
     
     if (lend.diff(lstart).toMillis() < 0) throw new Exception('Invalid dates', 400)
 
-    if (start) l.merge({start})
-    if (end) l.merge({end})
-    if (body.notes) l.merge({notes: body.notes})
+    if (start !== undefined) l.merge({start})
+    if (end !== undefined) l.merge({end})
+    if (body.notes !== undefined) l.merge({notes: body.notes})
+    
+    const bodyRoom = request.body()['roomId']
+    if (bodyRoom !== undefined) l.roomId = bodyRoom ?? null
+    console.log(bodyRoom)
     
     // update
     return l.save()

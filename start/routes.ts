@@ -122,7 +122,7 @@ Route.group(() => {
     .middleware('auth')
     .where('id', Route.matchers.number())
   Route.put(':id', 'LessonsController.updateLesson')
-    .middleware('auth:teacher')
+    .middleware('auth:teacher,student')
     .where('id', Route.matchers.number())
   Route.delete(':id', 'LessonsController.deleteLesson')
     .middleware('auth:teacher')
