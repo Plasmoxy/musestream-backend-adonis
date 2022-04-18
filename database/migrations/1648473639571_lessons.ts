@@ -15,6 +15,7 @@ export default class Lessons extends BaseSchema {
       table.string('notes').notNullable().defaultTo('')
       table.dateTime('start').notNullable()
       table.dateTime('end').notNullable()
+      table.string('room_id')
     })
   }
 

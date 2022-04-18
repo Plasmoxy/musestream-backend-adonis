@@ -28,6 +28,9 @@ export default class Lesson extends BaseModel {
 
   @hasMany(() => Message)
   public messages: HasMany<typeof Message>
+  
+  @column()
+  public roomId: string | null
 
   @column()
   public notes: string

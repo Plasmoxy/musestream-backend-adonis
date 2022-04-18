@@ -4,7 +4,7 @@ import ClassRequest from 'App/Models/ClassRequest'
 import ClassStudent from 'App/Models/ClassStudent'
 import Lesson from 'App/Models/Lesson'
 import User from 'App/Models/User'
-import { DateTime } from 'luxon'
+import { DateTime, Duration } from 'luxon'
 
 export default class DbSeedSeeder extends BaseSeeder {
   public async run () {
@@ -58,6 +58,24 @@ export default class DbSeedSeeder extends BaseSeeder {
     const jankoInPianoC = await ClassStudent.create({
       classId: pianoc.id,
       studentId: janko.id,
+    })
+    
+    jankoInPianoC.related('lessons').create({
+      start: DateTime.now().plus(Duration.fromDurationLike({days: 10, hours: 0})),
+      end: DateTime.now().plus(Duration.fromDurationLike({days: 10, hours: 2})),
+      notes: 'Your first lesson',
+    })
+    
+    jankoInPianoC.related('lessons').create({
+      start: DateTime.now().plus(Duration.fromDurationLike({days: 11, hours: 3})),
+      end: DateTime.now().plus(Duration.fromDurationLike({days: 11, hours: 4})),
+      notes: 'Janko learn more',
+    })
+    
+    jankoInPianoC.related('lessons').create({
+      start: DateTime.now().plus(Duration.fromDurationLike({days: 12})),
+      end: DateTime.now().plus(Duration.fromDurationLike({days: 12, hours: 2})),
+      notes: 'Practice',
     })
     
     const alicaInPianoC = await ClassStudent.create({
