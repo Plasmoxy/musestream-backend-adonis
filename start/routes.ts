@@ -91,7 +91,7 @@ Route.group(() => {
     
   // Lessons
   Route.get('/:id/students/:studentId/lessons', 'ClassStudentsController.getLessons')
-    .middleware('auth:teacher')
+    .middleware('auth')
     .where('id', Route.matchers.number())
     .where('studentId', Route.matchers.number())
   Route.post('/:id/students/:studentId/lessons', 'ClassStudentsController.addLesson')
