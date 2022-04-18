@@ -29,6 +29,9 @@ export default class User extends BaseModel {
     pivotTable: 'class_students',
   })
   public studentClasses: ManyToMany<typeof Class>
+  
+  @column()
+  public fullName: string
 
   @column()
   public name: string

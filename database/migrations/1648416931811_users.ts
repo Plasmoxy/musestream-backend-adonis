@@ -11,6 +11,7 @@ export default class Users extends BaseSchema {
       table.string('type').notNullable().defaultTo('student')
       table.string('password').notNullable()
       table.string('picture_url').notNullable().defaultTo('')
+      table.string('full_name').notNullable()
     })
   }
 

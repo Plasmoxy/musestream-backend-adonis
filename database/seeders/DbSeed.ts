@@ -13,37 +13,42 @@ export default class DbSeedSeeder extends BaseSeeder {
       name: 'admin',
       password: 'admin',
       type: 'admin',
+      fullName: 'Administrator',
     })
     
     const janko = await User.create({
       name: 'janko',
       password: 'janko',
+      fullName: 'Janci Janco',
     })
     
     const alica = await User.create({
       name: 'alica',
       password: 'alica',
+      fullName: 'Alica Alicaca',
     })
     
     const mg = await User.create({
       name: 'mg',
       password: 'mg',
       type: 'teacher',
+      fullName: 'Marek Gitarista',
     })
     
-    const ikotul = await User.create({
-      name: 'ikotul',
-      password: 'ikotul',
+    const malfred = await User.create({
+      name: 'malfred',
+      password: 'malfred',
       type: 'teacher',
+      fullName: 'Malfred Pianista',
     })
     
-    const pianoc = await ikotul.related('teacherClasses').create({
+    const pianoc = await malfred.related('teacherClasses').create({
       description: 'pianonono',
       instrument: 'piano',
       title: 'Piano class',
     })
     
-    const guitarc = await ikotul.related('teacherClasses').create({
+    const guitarc = await malfred.related('teacherClasses').create({
       description: 'giratroor',
       instrument: 'guitar',
       title: 'Guitar class',

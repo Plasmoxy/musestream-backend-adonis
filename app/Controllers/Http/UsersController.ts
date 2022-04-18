@@ -27,6 +27,8 @@ export default class UsersController {
         name: schema.string.optional(),
         type: schema.string.optional(),
         email: schema.string.optional(),
+        fullName: schema.string.optional(),
+        pictureUrl: schema.string.optional(),
       }),
     })
 

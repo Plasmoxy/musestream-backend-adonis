@@ -14,8 +14,11 @@ export default class AuthController {
     })
 
     try {
-      const token = await auth.use('api').attempt(body.name, body.password)
-      return token
+      const tokenData = await auth.use('api').attempt(body.name, body.password)
+      return {
+        token: tokenData.token,
+        user: tokenData.user.serialize(),
+      }
     } catch {
       return response.badRequest('Invalid credentials')
     }
@@ -26,6 +29,7 @@ export default class AuthController {
       schema: schema.create({
         name: schema.string(),
         password: schema.string(),
+        fullName: schema.string(),
         email: schema.string.optional(),
       }),
     })
