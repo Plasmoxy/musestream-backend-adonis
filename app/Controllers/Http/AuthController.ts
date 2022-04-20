@@ -44,4 +44,19 @@ export default class AuthController {
     const newUser = await User.create(body)
     return newUser
   }
+  
+  public async updateSelf({ request, auth }: HttpContextContract) {
+    const body = await request.validate({
+      schema: schema.create({
+        email: schema.string.optional(),
+        fullName: schema.string.optional(),
+      }),
+    })
+
+    const usr = await User.find(auth.user!.id)
+    if (usr === null) throw new Exception('User not found', 404)
+
+    // merge request body into foudn user and save
+    return await usr.merge(body).save()
+  }
 }

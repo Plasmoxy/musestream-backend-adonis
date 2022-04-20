@@ -42,6 +42,7 @@ Route.group(() => {
 // Auth
 Route.post('/login', 'AuthController.login')
 Route.post('/register', 'AuthController.register')
+Route.put('/updateSelf', 'AuthController.updateSelf').middleware('auth')
 
 // Users - admin only
 Route.group(() => {

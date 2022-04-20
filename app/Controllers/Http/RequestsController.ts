@@ -10,7 +10,11 @@ export default class RequestsController {
   public async getClassRequests({ request }: HttpContextContract) {
     const cls = await Class.find(request.param('id'))
     if (cls === null) throw new Exception('Class not found', 404)
-    return await cls.related('requests').query()
+    const reqs = await cls.related('requests').query()
+    for (const r of reqs) {
+      await r.load('student')
+    }
+    return reqs
   }
 
   public async createClassRequest({request, auth}: HttpContextContract) {

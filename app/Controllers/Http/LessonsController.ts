@@ -10,6 +10,7 @@ export default class LessonsController {
     const l = await Lesson.find(request.param('id'))
     if (l === null) throw new Exception('Lesson not found', 404)
     await l.load('classStudent')
+    await l.classStudent.load('student')
     return l
   }
 
