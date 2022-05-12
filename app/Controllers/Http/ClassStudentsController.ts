@@ -7,7 +7,6 @@ import User from 'App/Models/User'
 import { DateTime } from 'luxon'
 
 export default class ClassStudentsController {
-  
   public async getStudents({ request }: HttpContextContract) {
     const cls = await Class.find(request.param('id'))
     if (cls === null) throw new Exception('Class not found', 404)
@@ -63,7 +62,7 @@ export default class ClassStudentsController {
 
     if (cs === null) throw new Exception('Student not in class or class doesnt exist', 404)
 
-    return await cs.related('lessons').query()
+    return await cs.related('lessons').query().preload('classStudent')
   }
 
   public async addLesson({ request }: HttpContextContract) {
